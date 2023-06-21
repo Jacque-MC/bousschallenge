@@ -4,5 +4,6 @@ from apps.files import views
 
 urlpatterns = [
     path('', views.UploadedFilesViewset.as_view({'get': 'list'})),
-    path('upload/', views.ReadFileView.as_view({'post': 'post'})),
+    path('upload/', views.UpFileView.as_view({'post': 'post'})),
+    path('detail/<int:pk>/', views.UploadedFilesViewset.as_view({'get': 'retrieve'}))
 ]

@@ -16,7 +16,7 @@ class FileEntry(models.Model):
                                 verbose_name='Cliente')
     contract_number = models.CharField(max_length=10, 
                                        verbose_name='Número de contrato')
-    purchase_date = models.DateField(verbose_name='Fecha de compra')
+    purchase_date = models.DateTimeField(verbose_name='Fecha de compra')
     city = models.CharField(max_length=255, verbose_name='Ciudad')
     business = models.CharField(max_length=255, verbose_name='Empresa')
     debt = models.DecimalField(decimal_places=2, max_digits=8, 
