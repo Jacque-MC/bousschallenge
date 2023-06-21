@@ -1,0 +1,34 @@
+services:
+- type: web
+  name: bouschallenge
+  env: docker
+  autoDeploy: false
+  plan: free
+  region: oregon
+  envVars:
+    - key: ENV
+      sync: False
+    - key: SECRET_KEY
+      sync: False
+    - key: DJANGO_ALLOWED_HOSTS
+      sync: False
+    - key: CORS_ALLOW_ALL_ORIGINS
+      sync: False
+    - key: CORS_ALLOWED_ORIGINS
+      sync: False
+    - key: CSRF_TRUSTED_ORIGINS
+      sync: False
+    - key: CSRF_COOKIE_SECURE
+      sync: False
+    - key: DEBUG
+      sync: False
+    - key: DB_ENGINE
+      sync: False
+    - key: DB_USER
+      sync: False
+    - key: DB_PASSWORD
+      sync: False
+    - key: DB_HOST
+      sync: False
+    - key: DB_PORT
+      sync: false
