@@ -1,6 +1,7 @@
 from django.core.validators import FileExtensionValidator
-from django.db.models import Sum, F
 
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema_field
 import openpyxl
 from rest_framework import serializers, exceptions
 
@@ -36,15 +37,19 @@ class FileDetailsSerializer(serializers.ModelSerializer):
         model = UploadedFiles
         fields = '__all__'
     
+    @extend_schema_field(OpenApiTypes.INT)
     def get_entries(self, instance):
         return instance.entries.count()
 
+    @extend_schema_field(OpenApiTypes.DECIMAL)
     def get_total_debt(self, instance):
         return instance.get_grand_total
 
+    @extend_schema_field(OpenApiTypes.DECIMAL)
     def get_debt_by_city(self, instance):
         return instance.grand_debt_by_city
 
+    @extend_schema_field(OpenApiTypes.DECIMAL)
     def get_debt_by_business(self, instance):
         return instance.grand_debt_by_business
 
@@ -64,25 +69,22 @@ class UploadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UploadedFiles
-        fields = ('xcelfile', 'filename','entries',)
+        fields = ('xcelfile', 'filename',)
         extra_kwargs = {
             'filename': {'required': False},
         }
     
-    def validate_filename(self, value):
-        try:
-            uf = UploadedFiles.objects.get(filename=value)
-            if uf:
-                raise exceptions.ValidationError(
-                    {'error': 'Duplicated file'}
-                )
-        except:
-            pass
-        return value
+    def validate(self, attrs):
+        filename = attrs['xcelfile'].name
+
+        if UploadedFiles.objects.filter(filename=filename).exists():
+            raise exceptions.ValidationError(
+                {'xcelfile': 'Duplicated file'}
+            )
+        return attrs
     
     def create(self, validated_data):
         xcelfile = validated_data.get('xcelfile', '')
-        self.validate_filename(xcelfile.name)
         file = UploadedFiles.objects.create(filename=xcelfile.name)
         wb = openpyxl.load_workbook(xcelfile)
         sheet = wb.active

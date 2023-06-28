@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum, Func
 
 
 class UploadedFiles(models.Model):
@@ -12,15 +13,19 @@ class UploadedFiles(models.Model):
 
     @property
     def get_grand_total(self):
-        return self.entries.aggregate(total_debt=models.Sum('debt'))
+        return self.entries.aggregate(total_debt=Sum('debt'))['total_debt']
 
     @property
     def grand_debt_by_city(self):
         return self.entries.values('city')\
-            .annotate(total=models.Sum('debt'))
+            .annotate(
+                total=((Sum('debt') / self.get_grand_total) * 100)
+            )
 
     @property
     def grand_debt_by_business(self):
         return self.entries\
             .values('business')\
-                .annotate(total=models.Sum('debt'))
+                .annotate(
+                   total=( (Sum('debt') / self.get_grand_total) * 100 )
+                )

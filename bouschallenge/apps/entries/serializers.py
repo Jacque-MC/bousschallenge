@@ -17,3 +17,15 @@ class CreateEntrySerializer(serializers.ModelSerializer):
 
     def validate_debt(self, value):
         return Decimal(value)
+
+    def validate_contract_number(self, value):
+        return str(value)
+    
+    def validate_business(self, value):
+        return str(value)
+    
+    def validate_city(self, value):
+        return str(value)
+    
+    def validate_customer(self, value):
+        return str(value)

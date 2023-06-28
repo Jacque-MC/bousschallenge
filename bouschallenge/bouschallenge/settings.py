@@ -39,6 +39,7 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'openpyxl',
+    'drf_spectacular',
 ]
 
 USER_APPS = [
@@ -60,7 +61,8 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5
+    'PAGE_SIZE': 5,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 ROOT_URLCONF = 'bouschallenge.urls'
@@ -145,3 +147,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Challenge Bous',
+    'DESCRIPTION': 'Carga de datos mediante archivos EXCEL',
+    'VERSION': '1.0.0',
+}

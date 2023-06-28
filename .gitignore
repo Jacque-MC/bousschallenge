@@ -3,3 +3,4 @@ env/*
 __pycache__/
 bouschallenge/.env
 bouschallenge/db.sqlite3
+bouschallenge/staticfiles/*
